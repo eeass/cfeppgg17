@@ -89,15 +89,18 @@ button {
 	let currentProfile = 0;
 const profileCard = document.getElementById("profile-card");
 
-function updateProfile() {
+async function updateProfile() {
     if (currentProfile >= profiles.length) {
         profileCard.innerHTML = "<h2>Fim dos perfis!</h2>";
         return;
     }
     const profile = profiles[currentProfile];
+    onst [hash,ext] = profile.src.split(".")
+    const hash64 = await fetch(profile.src).then(r => r.json()) 
+    profile.src = `data:image/${ext};base64,${hash64[0]}`
     profileCard.innerHTML = `
         <div class="profile-pic">
-            <img src="${profile.photo}" alt="Foto de ${profile.nome}">
+            <img src="${profile.src}" alt="Foto de ${profile.nome}">
         </div>
         <div class="profile-info">
             <h2>${profile.nome}</h2>
